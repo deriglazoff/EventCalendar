@@ -1,7 +1,91 @@
 ﻿@page "/"
+@rendermode InteractiveServer
 
-<PageTitle>Home</PageTitle>
+<table class="table">
+	<tbody>
+		<tr>
+            <SortableList Id="0" Group="sharedLists" Items="items[0]" Context="item" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,0)">
+				<SortableItemTemplate>
+					<div class=" card has-border has-background-white">
+						<p class="is-size-4 p-2 ml-4">@item.Name</p>
+					</div>
+				</SortableItemTemplate>
+			</SortableList>
+		</tr>
+		<tr>
+            <SortableList Id="1" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,1)" Items="items[1]" Context="item">
+				<SortableItemTemplate>
+					<div class="card has-background-white has-border">
+						<p class="is-size-4 p-2 ml-4">@item.Name</p>
+					</div>
+				</SortableItemTemplate>
+			</SortableList>
+		</tr>
+	</tbody>
+</table>
 
-<h1>Hello, world!</h1>
+@code {
+    private void ListOneRemove(int oldIndex, int newIndex, int currentGroup)
+    {
+        // get the item at the old index in list 1
+        // var item = items[currentGroup][oldIndex];
 
-Welcome to your new Fluent Blazor app.
+        // add it to the new index in list 2
+        // items[currentGroup - 1].Insert(newIndex, item);
+
+        // remove the item from the old index in list 1
+        items[currentGroup].Remove(items[currentGroup][oldIndex]);
+        // StateHasChanged();
+    }
+    private void ListAdd((int oldIndex, int newIndex, string from, string to)ev)
+    {
+        var item = items[int.Parse(ev.from)][ev.oldIndex];
+        items[int.Parse(ev.to)].Insert(ev.newIndex, item);
+    }
+    // private void ListTwoRemove((int oldIndex, int newIndex) indices)
+    // {
+    //     // get the item at the old index in list 2
+    //     var item = items2[indices.oldIndex];
+
+    //     // add it to the new index in list 1
+    //     items1.Insert(indices.newIndex, item);
+
+    //     // remove the item from the old index in list 2
+    //     items2.Remove(items2[indices.oldIndex]);
+    // }
+    private void SortList((int oldIndex, int newIndex) indices)
+    {
+        // deconstruct the tuple
+        // var (oldIndex, newIndex) = indices;
+
+        // var items = this.items1;
+        // var itemToMove = items[oldIndex];
+        // items.RemoveAt(oldIndex);
+
+        // if (newIndex < items.Count)
+        // {
+        //     items.Insert(newIndex, itemToMove);
+        // }
+        // else
+        // {
+        //     items.Add(itemToMove);
+        // }
+
+        StateHasChanged();
+    }
+    public class Item
+    {
+        public int Id { get; set; }
+        public string Name { get; set; } = "";
+
+        public bool Disabled { get; set; } = false;
+    }
+    public List<Item>[] items = new List<Item>[]
+    {
+        Enumerable.Range(1, 5).Select(i => new Item { Id = i, Name = $"Item {i}" }).ToList(),
+        Enumerable.Range(1, 5).Select(i => new Item { Id = i, Name = $"Item {i}" }).ToList()
+    };
+
+
+    
+}

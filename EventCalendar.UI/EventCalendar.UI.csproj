@@ -6,4 +6,12 @@
     <ImplicitUsings>enable</ImplicitUsings>
   </PropertyGroup>
 
+  <ItemGroup>
+    <None Remove="Shared\SortableList.razor.js" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="Shared\SortableList.razor.js" />
+  </ItemGroup>
+
 </Project>
