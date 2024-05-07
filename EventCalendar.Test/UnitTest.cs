@@ -34,7 +34,7 @@ namespace EventCalendar.Test
         }
 
         [Fact]
-        public async Task ControllerEvents_Add_Ok()
+        public async Task ControllerEvents_Edit_Ok()
         {
             await using var application = new WebApplicationFactory<Program>();
 
@@ -45,11 +45,25 @@ namespace EventCalendar.Test
 
             var events = await httpResponse.Content.ReadFromJsonAsync<List<EventModel>>();
 
-            httpResponse = await client.PostAsync("events", new StringContent(""));
+            httpResponse = await client.PutAsync("events", JsonContent.Create(new EventModel { Id = events.First().Id, Name = "new", Date = DateTime.Now }));
 
             httpResponse = await client.GetAsync($"events");
             var events2 = await httpResponse.Content.ReadFromJsonAsync<List<EventModel>>();
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
+        }
+        [Fact]
+        public async Task ControllerEvents_Add_Ok()
+        {
+            await using var application = new WebApplicationFactory<Program>();
+
+            using var client = application.CreateClient();
+
+            var id = Guid.NewGuid();
+            var httpResponse = await client.PostAsync("events", JsonContent.Create(new EventModel { Id = id, Name = "new", Date = DateTime.Now }));
+
+            httpResponse = await client.GetAsync($"events");
+            var events = await httpResponse.Content.ReadFromJsonAsync<List<EventModel>>();
+            Assert.Equal("new", actual: events.First(x => x.Id == id).Name);
         }
     }
 }

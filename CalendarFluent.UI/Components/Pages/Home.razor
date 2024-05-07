@@ -107,9 +107,9 @@
     }
     public List<Item>[] items = new List<Item>[]
     {
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"hour {i}.00" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"hour {i}.00" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"hour {i}.00" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00" }).ToList(),
     };
 
 

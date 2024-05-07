@@ -15,9 +15,9 @@ public class EventsRepository
     {
         return _items;
     }
-    public void AddEvent()
+    public void AddEvent(EventModel eventModel)
     {
-        _items.Add(new EventModel() { Id = Guid.NewGuid(), Name = "Retro" });
+        _items.Add(eventModel);
     }
 
     public void UpdateEvent(EventModel eventModel)

@@ -23,7 +23,7 @@ namespace EventCalendar.Api.Controller
         [HttpPost]
         public async Task<ActionResult> AddEvent(EventModel eventModel)
         {
-            _EventsRepository.AddEvent();
+            _EventsRepository.AddEvent(eventModel);
             return Ok();
         }
 
