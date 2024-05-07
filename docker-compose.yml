@@ -1,0 +1,15 @@
+version: '3.4'
+
+services:
+  calendarfluent.ui:
+    image: ${DOCKER_REGISTRY-}calendarfluentui
+    build:
+      context: .
+      dockerfile: CalendarFluent.UI/Dockerfile
+
+  eventcalendar.api:
+    image: ${DOCKER_REGISTRY-}eventcalendarapi
+    build:
+      context: .
+      dockerfile: EventCalendar.Api/Dockerfile
+
