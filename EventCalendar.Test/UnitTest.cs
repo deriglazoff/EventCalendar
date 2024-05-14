@@ -1,4 +1,5 @@
-using EventCalendar.Api.Controller;
+using EventCalendar.Api;
+using EventCalendar.Api.Domain;
 using Microsoft.AspNetCore.Mvc.Testing;
 using System.Net;
 using System.Net.Http.Json;

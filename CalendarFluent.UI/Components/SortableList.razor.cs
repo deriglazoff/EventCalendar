@@ -61,14 +61,12 @@ namespace CalendarFluent.UI.Components
         [JSInvokable]
         public void OnUpdateJS(int oldIndex, int newIndex)
         {
-            // invoke the OnUpdate event passing in the oldIndex and the newIndex
             OnUpdate.InvokeAsync((oldIndex, newIndex));
         }
 
         [JSInvokable]
         public void OnRemoveJS(int oldIndex, int newIndex)
         {
-            // remove the item from the list
             OnRemove.InvokeAsync((oldIndex, newIndex));
         }
         [JSInvokable]

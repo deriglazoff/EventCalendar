@@ -1,5 +1,9 @@
 ﻿@page "/"
+@using EventCalendar.Api.Infrastructure
 @rendermode InteractiveServer
+
+
+@inject EventsRepository rep
 <table class="table">
     <thead>
         <tr>
@@ -15,9 +19,18 @@
             <td>
             <SortableList Id="0" Group="sharedLists" Items="items[0]" Context="item" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,0)">
                 <SortableItemTemplate>
-                    <div class=" card has-border has-background-white">
-                        <p class="is-size-4 p-1 ml-4">@item.Name</p>
-                    </div>
+                        @if (item.Color)
+                        {
+                            <div class="card has-border has-background-white" style="border-color: blue">
+                                <p class="is-size-4 p-1 ml-4">@item.Name</p>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class=" card has-border has-background-white">
+                                <p class="is-size-4 p-1 ml-4">@item.Name</p>
+                            </div>
+                        }
                 </SortableItemTemplate>
             </SortableList>
             </td>
@@ -25,7 +38,7 @@
 
                 <SortableList Id="1" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,1)" Items="items[1]" Context="item">
                     <SortableItemTemplate>
-                        <div class="card has-background-white has-border">
+                        <div class=" card has-border has-background-white">
                             <p class="is-size-4 p-1 ml-4">@item.Name</p>
                         </div>
                     </SortableItemTemplate>
@@ -34,26 +47,26 @@
             <td>
                 <SortableList Id="2" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,2)" Items="items[2]" Context="item">
                     <SortableItemTemplate>
-                        <div class="card has-background-white has-border">
+                        <div class=" card has-border has-background-white">
                             <p class="is-size-4 p-1 ml-4">@item.Name</p>
                         </div>
                     </SortableItemTemplate>
                 </SortableList>
             </td>
                         <td>
-                <SortableList Id="2" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,2)" Items="items[2]" Context="item">
+                <SortableList Id="3" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,3)" Items="items[3]" Context="item">
                     <SortableItemTemplate>
-                        <div class="card has-background-white has-border">
-                            <p class="is-size-4 p-2 ml-4">@item.Name</p>
+                        <div class=" card has-border has-background-white">
+                            <p class="is-size-4 p-1 ml-4">@item.Name</p>
                         </div>
                     </SortableItemTemplate>
                 </SortableList>
             </td>
             <td>
-                <SortableList Id="2" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,2)" Items="items[2]" Context="item">
+                <SortableList Id="4" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,4)" Items="items[4]" Context="item">
                     <SortableItemTemplate>
-                        <div class="card has-background-white has-border">
-                            <p class="is-size-4 p-2 ml-4">@item.Name</p>
+                        <div class=" card has-border has-background-white">
+                            <p class="is-size-4 p-1 ml-4">@item.Name</p>
                         </div>
                     </SortableItemTemplate>
                 </SortableList>
@@ -63,6 +76,16 @@
 </table>
 
 @code {
+    protected override Task OnParametersSetAsync()
+    {
+        var a = rep.GetEvent();
+        var c = a.FirstOrDefault().Date.Add(DateTime.Now.TimeOfDay).Day;
+        var item = items[0][7];
+        items[0].Remove(item);
+        items[0].Insert(7, new Item { Id = 7, Name = a.First().Name, Color = true });
+        return base.OnParametersSetAsync();
+    }
+
     private void ListOneRemove(int oldIndex, int newIndex, int currentGroup)
     {
         // get the item at the old index in list 1
@@ -104,14 +127,14 @@
     {
         public int Id { get; set; }
         public string Name { get; set; } = "";
+        public bool Color { get; set; }
     }
     public List<Item>[] items = new List<Item>[]
     {
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
     };
-
-
-    
 }

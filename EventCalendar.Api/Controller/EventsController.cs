@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using EventCalendar.Api.Domain;
+using Microsoft.AspNetCore.Mvc;
 
 namespace EventCalendar.Api.Controller
 {
@@ -6,9 +7,9 @@ namespace EventCalendar.Api.Controller
     [Route("events")]
     public class EventsController : ControllerBase
     {
-        public EventsRepository _EventsRepository;
+        public IEventsRepository _EventsRepository;
 
-        public EventsController(EventsRepository eventsRepository)
+        public EventsController(IEventsRepository eventsRepository)
         {
             _EventsRepository = eventsRepository;
         }
