@@ -2,126 +2,94 @@
 @using EventCalendar.Api.Infrastructure
 @rendermode InteractiveServer
 
-
 @inject EventsRepository rep
 <table class="table">
-    <thead>
-        <tr>
-            <th class="col-md-2" scope="col">понедельник</th>
-            <th class="col-md-2" scope="col">вторник</th>
-            <th class="col-md-2" scope="col">среда</th>
-            <th class="col-md-2" scope="col">четверг</th>
-            <th class="col-md-2" scope="col">пятница</th>
-        </tr>
-    </thead>
-    <tbody>
-        <tr>
-            <td>
-            <SortableList Id="0" Group="sharedLists" Items="items[0]" Context="item" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,0)">
-                <SortableItemTemplate>
-                        @if (item.Color)
-                        {
-                            <div class="card has-border has-background-white" style="border-color: blue">
-                                <p class="is-size-4 p-1 ml-4">@item.Name</p>
-                            </div>
-                        }
-                        else
-                        {
-                            <div class=" card has-border has-background-white">
-                                <p class="is-size-4 p-1 ml-4">@item.Name</p>
-                            </div>
-                        }
-                </SortableItemTemplate>
-            </SortableList>
-            </td>
-            <td>
-
-                <SortableList Id="1" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,1)" Items="items[1]" Context="item">
-                    <SortableItemTemplate>
-                        <div class=" card has-border has-background-white">
-                            <p class="is-size-4 p-1 ml-4">@item.Name</p>
-                        </div>
-                    </SortableItemTemplate>
-                </SortableList>
-            </td>
-            <td>
-                <SortableList Id="2" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,2)" Items="items[2]" Context="item">
-                    <SortableItemTemplate>
-                        <div class=" card has-border has-background-white">
-                            <p class="is-size-4 p-1 ml-4">@item.Name</p>
-                        </div>
-                    </SortableItemTemplate>
-                </SortableList>
-            </td>
-                        <td>
-                <SortableList Id="3" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,3)" Items="items[3]" Context="item">
-                    <SortableItemTemplate>
-                        <div class=" card has-border has-background-white">
-                            <p class="is-size-4 p-1 ml-4">@item.Name</p>
-                        </div>
-                    </SortableItemTemplate>
-                </SortableList>
-            </td>
-            <td>
-                <SortableList Id="4" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e.oldIndex,e.newIndex,4)" Items="items[4]" Context="item">
-                    <SortableItemTemplate>
-                        <div class=" card has-border has-background-white">
-                            <p class="is-size-4 p-1 ml-4">@item.Name</p>
-                        </div>
-                    </SortableItemTemplate>
-                </SortableList>
-            </td>
-        </tr>
-    </tbody>
+	<thead>
+		<tr>
+			<th class="col-md-2" scope="col">понедельник</th>
+			<th class="col-md-2" scope="col">вторник</th>
+			<th class="col-md-2" scope="col">среда</th>
+			<th class="col-md-2" scope="col">четверг</th>
+			<th class="col-md-2" scope="col">пятница</th>
+		</tr>
+	</thead>
+	<tbody>
+		<tr>
+			<td>
+				<SortableList Id="0" Group="sharedLists" Items="items[0]" Context="item" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e,0)" OnUpdate="(x=>SortList(x,0))">
+					<SortableItemTemplate>
+						@item.Name
+					</SortableItemTemplate>
+				</SortableList>
+			</td>
+			<td>
+				<SortableList Id="1" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e,1)" OnUpdate="(x=>SortList(x,1))" Items="items[1]" Context="item">
+					<SortableItemTemplate>
+						@item.Name
+					</SortableItemTemplate>
+				</SortableList>
+			</td>
+			<td>
+				<SortableList Id="2" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e,2)" OnUpdate="(x=>SortList(x,2))" Items="items[2]" Context="item">
+					<SortableItemTemplate>
+						@item.Name
+					</SortableItemTemplate>
+				</SortableList>
+			</td>
+			<td>
+				<SortableList Id="3" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e,3)" OnUpdate="(x=>SortList(x,3))" Items="items[3]" Context="item">
+					<SortableItemTemplate>
+						@item.Name
+					</SortableItemTemplate>
+				</SortableList>
+			</td>
+			<td>
+				<SortableList Id="4" Group="sharedLists" OnAdd="ListAdd" OnRemove="e => ListOneRemove(e,4)" OnUpdate="(x=>SortList(x,4))" Items="items[4]" Context="item">
+					<SortableItemTemplate>
+						@item.Name
+					</SortableItemTemplate>
+				</SortableList>
+			</td>
+		</tr>
+	</tbody>
 </table>
 
 @code {
-    protected override Task OnParametersSetAsync()
-    {
-        var a = rep.GetEvent();
-        var c = a.FirstOrDefault().Date.Add(DateTime.Now.TimeOfDay).Day;
-        var item = items[0][7];
-        items[0].Remove(item);
-        items[0].Insert(7, new Item { Id = 7, Name = a.First().Name, Color = true });
-        return base.OnParametersSetAsync();
-    }
+	protected override Task OnParametersSetAsync()
+	{
+		foreach (var eventModel in rep.GetEvent())
+		{
+			var diff = (eventModel.Date - DateTime.Now.Date);
+			var item = items[diff.Days][diff.Hours-7];
+			items[diff.Days].Remove(item);
+			items[diff.Days].Insert(diff.Hours-7, new Item { Id = diff.Hours-7, Name = eventModel.Name, Color = true });
+		}
+		return base.OnParametersSetAsync();
+	}
 
-    private void ListOneRemove(int oldIndex, int newIndex, int currentGroup)
-    {
-        // get the item at the old index in list 1
-        // var item = items[currentGroup][oldIndex];
-
-        // add it to the new index in list 2
-        // items[currentGroup - 1].Insert(newIndex, item);
-
-        // remove the item from the old index in list 1
-        items[currentGroup].Remove(items[currentGroup][oldIndex]);
-        // StateHasChanged();
-    }
-    private void ListAdd((int oldIndex, int newIndex, string from, string to)ev)
+	private void ListOneRemove((int oldIndex, int newIndex) indices, int currentGroup)
+	{
+		items[currentGroup].Remove(items[currentGroup][indices.oldIndex]);
+	}
+	private void ListAdd((int oldIndex, int newIndex, string from, string to)ev)
     {
         var item = items[int.Parse(ev.from)][ev.oldIndex];
         items[int.Parse(ev.to)].Insert(ev.newIndex, item);
     }
-    private void SortList((int oldIndex, int newIndex) indices)
+    private void SortList((int oldIndex, int newIndex) indices, int currentGroup)
     {
-        // deconstruct the tuple
-        // var (oldIndex, newIndex) = indices;
+        var items = this.items[currentGroup];
+        var itemToMove = items[indices.oldIndex];
+        items.RemoveAt(indices.oldIndex);
 
-        // var items = this.items1;
-        // var itemToMove = items[oldIndex];
-        // items.RemoveAt(oldIndex);
-
-        // if (newIndex < items.Count)
-        // {
-        //     items.Insert(newIndex, itemToMove);
-        // }
-        // else
-        // {
-        //     items.Add(itemToMove);
-        // }
-
-        StateHasChanged();
+        if (indices.newIndex < items.Count)
+        {
+            items.Insert(indices.newIndex, itemToMove);
+        }
+        else
+        {
+            items.Add(itemToMove);
+        }
     }
     public class Item
     {
@@ -131,10 +99,10 @@
     }
     public List<Item>[] items = new List<Item>[]
     {
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
-        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"{i}.00 Empty" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"" }).ToList(),
+        Enumerable.Range(7, 12).Select(i => new Item { Id = i, Name = $"" }).ToList(),
     };
 }

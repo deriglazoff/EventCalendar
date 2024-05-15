@@ -19,7 +19,6 @@ public class PublishService
         {
             try
             {
-
                 await Task.Delay(2000, stoppingToken);
                 var events = _eventsRepository.GetEvent();
 
@@ -28,7 +27,6 @@ public class PublishService
                 foreach (var item in needNotification)
                 {
                     await _bus.Publish(new NotificationCommand(item), stoppingToken);
-
                 }
             }
             catch (Exception ex)

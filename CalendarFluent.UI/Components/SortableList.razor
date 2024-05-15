@@ -7,13 +7,26 @@
 
 <div id="@Id">
 
-    @foreach (var item in Items)
-    {
-        @if (SortableItemTemplate is not null)
-        {
-            <div>
-            @SortableItemTemplate(item)
-            </div>
-        }
-    }
+	@foreach (var item in Items.Select((val, i) => new { i, val }))
+	{
+		@if (SortableItemTemplate is not null)
+		{
+			@if (item.val.Color)
+			{
+				<div class="card has-border has-background-white" style="border-color: blue">
+					<p class="is-size-4 p-1 ml-4">
+						@(item.i + 7).00 @SortableItemTemplate(item.val)
+					</p>
+				</div>
+			}
+			else
+			{
+				<div class=" card has-border has-background-white">
+					<p class="is-size-4 p-1 ml-4">
+						@(item.i + 7).00 @SortableItemTemplate(item.val)
+					</p>
+				</div>
+			}
+		}
+	}
 </div>

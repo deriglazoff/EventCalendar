@@ -1,10 +1,11 @@
 using Microsoft.AspNetCore.Components;
 using Microsoft.JSInterop;
 using System.Diagnostics.CodeAnalysis;
+using static CalendarFluent.UI.Components.Pages.Home;
 
 namespace CalendarFluent.UI.Components
 {
-    public partial class SortableList<T>
+    public partial class SortableList<T> where T : Item
     {
 
         [Parameter]
