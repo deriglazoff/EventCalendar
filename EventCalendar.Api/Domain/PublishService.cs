@@ -19,7 +19,7 @@ public class PublishService
         {
             try
             {
-                await Task.Delay(60_000, stoppingToken);
+                await Task.Delay(5_000, stoppingToken);
                 var events = _eventsRepository.GetEvent();
 
                 var needNotification = events.Where(x => x.IsNotification is false);

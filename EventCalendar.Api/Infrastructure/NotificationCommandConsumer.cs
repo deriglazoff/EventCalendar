@@ -13,9 +13,9 @@ public class NotificationCommandConsumer :
         _logger = logger;
     }
 
-    public Task Consume(ConsumeContext<NotificationCommand> context)
-    {
-        context.Message.Execute();
-        return Task.CompletedTask;
+    public async Task Consume(ConsumeContext<NotificationCommand> context)
+	{
+		await Task.Delay(5_000, context.CancellationToken);
+		context.Message.Execute();
     }
 }

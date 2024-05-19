@@ -22,14 +22,14 @@ namespace EventCalendar.Api.Controller
             return Ok(events);
         }
         [HttpPost]
-        public async Task<ActionResult> AddEvent(EventModel eventModel)
+        public async Task<ActionResult> AddEvent(EventEntity eventModel)
         {
             _EventsRepository.AddEvent(eventModel);
             return Ok();
         }
 
         [HttpPut]
-        public async Task<ActionResult> UpdateEvent(EventModel eventModel)
+        public async Task<ActionResult> UpdateEvent(EventEntity eventModel)
         {
             _EventsRepository.UpdateEvent(eventModel);
             return Ok();

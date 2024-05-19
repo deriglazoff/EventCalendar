@@ -2,8 +2,8 @@
 
 public interface IEventsRepository
 {
-    public IEnumerable<EventModel> GetEvent();
-    public void AddEvent(EventModel eventModel);
+    public IEnumerable<EventEntity> GetEvent();
+    public void AddEvent(EventEntity eventModel);
 
-    public void UpdateEvent(EventModel eventModel);
+    public void UpdateEvent(EventEntity eventModel);
 }

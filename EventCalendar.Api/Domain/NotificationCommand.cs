@@ -1,9 +1,9 @@
 ﻿namespace EventCalendar.Api.Domain;
 public class NotificationCommand
 {
-    public EventModel EventModel { get; set; }
+    public EventEntity EventModel { get; set; }
 
-    public NotificationCommand(EventModel eventModel)
+    public NotificationCommand(EventEntity eventModel)
     {
         EventModel = eventModel;
     }

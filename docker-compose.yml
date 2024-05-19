@@ -1,11 +1,11 @@
 version: '3.4'
 
 services:
-  calendarfluent.ui:
-    image: ${DOCKER_REGISTRY-}calendarfluentui
-    build:
-      context: .
-      dockerfile: CalendarFluent.UI/Dockerfile
+  # calendarfluent.ui:
+  #   image: ${DOCKER_REGISTRY-}calendarfluentui
+  #   build:
+  #     context: .
+  #     dockerfile: CalendarFluent.UI/Dockerfile
 
   eventcalendar.api:
     image: ${DOCKER_REGISTRY-}eventcalendarapi
@@ -13,3 +13,27 @@ services:
       context: .
       dockerfile: EventCalendar.Api/Dockerfile
 
+
+  db:
+    image: postgres
+    environment:
+      POSTGRES_PASSWORD: example
+    ports:
+      - "5432:5432"
+
+  rabbitmq:
+    # There is a prebuilt RabbitMQ image; see
+    # https://hub.docker.com/_/rabbitmq/ for details.
+    # This variant is built on Alpine Linux (it's smaller) and includes
+    # the management UI.
+    image: 'rabbitmq:3.6-management-alpine'
+
+    # These ports are exposed on the host; 'hostport:containerport'.
+    # You could connect to this server from outside with the *host's*
+    # DNS name or IP address and port 5672 (the left-hand side of the
+    # colon).
+    ports:
+      # The standard AMQP protocol port
+      - '5672:5672'
+      # HTTP management UI
+      - '15672:15672'

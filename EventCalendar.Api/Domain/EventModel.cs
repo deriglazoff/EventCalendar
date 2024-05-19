@@ -1,6 +1,6 @@
 ﻿namespace EventCalendar.Api.Domain
 {
-    public record EventModel
+    public record EventEntity
     {
         public Guid Id { get; set; }
         public string Name { get; set; }

@@ -30,7 +30,7 @@ namespace EventCalendar.Test
 
             var httpResponse = await client.GetAsync($"events");
 
-            var events = await httpResponse.Content.ReadFromJsonAsync<List<EventModel>>();
+            var events = await httpResponse.Content.ReadFromJsonAsync<List<EventEntity>>();
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
         }
 
@@ -44,12 +44,12 @@ namespace EventCalendar.Test
 
             var httpResponse = await client.GetAsync($"events");
 
-            var events = await httpResponse.Content.ReadFromJsonAsync<List<EventModel>>();
+            var events = await httpResponse.Content.ReadFromJsonAsync<List<EventEntity>>();
 
-            httpResponse = await client.PutAsync("events", JsonContent.Create(new EventModel { Id = events.First().Id, Name = "new", Date = DateTime.Now }));
+            httpResponse = await client.PutAsync("events", JsonContent.Create(new EventEntity { Id = events.First().Id, Name = "new", Date = DateTime.Now }));
 
             httpResponse = await client.GetAsync($"events");
-            var events2 = await httpResponse.Content.ReadFromJsonAsync<List<EventModel>>();
+            var events2 = await httpResponse.Content.ReadFromJsonAsync<List<EventEntity>>();
             Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);
         }
         [Fact]
@@ -60,10 +60,10 @@ namespace EventCalendar.Test
             using var client = application.CreateClient();
 
             var id = Guid.NewGuid();
-            var httpResponse = await client.PostAsync("events", JsonContent.Create(new EventModel { Id = id, Name = "new", Date = DateTime.Now }));
+            var httpResponse = await client.PostAsync("events", JsonContent.Create(new EventEntity { Id = id, Name = "new", Date = DateTime.Now }));
 
             httpResponse = await client.GetAsync($"events");
-            var events = await httpResponse.Content.ReadFromJsonAsync<List<EventModel>>();
+            var events = await httpResponse.Content.ReadFromJsonAsync<List<EventEntity>>();
             Assert.Equal("new", actual: events.First(x => x.Id == id).Name);
         }
     }
