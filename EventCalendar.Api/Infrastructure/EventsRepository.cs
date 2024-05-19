@@ -9,11 +9,16 @@ public class EventsRepository: IEventsRepository
         _items = new List<EventModel>()
         {
             new EventModel() { Id = Guid.NewGuid(), Name = "Dally", Date = DateTime.Now.Date.AddHours(8)},
-            new EventModel() { Id = Guid.NewGuid(), Name = "Dally", Date = DateTime.Now.Date.AddDays(1).AddHours(8)},
-            new EventModel() { Id = Guid.NewGuid(), Name = "Dally", Date = DateTime.Now.Date.AddDays(2).AddHours(8)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Lunch", Date = DateTime.Now.Date.AddHours(13)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Dally", Date = DateTime.Now.Date.AddDays(1).AddHours(8)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Lunch", Date = DateTime.Now.Date.AddDays(1).AddHours(13)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Dally", Date = DateTime.Now.Date.AddDays(2).AddHours(8)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Lunch", Date = DateTime.Now.Date.AddDays(2).AddHours(13)},
 			new EventModel() { Id = Guid.NewGuid(), Name = "Dally", Date = DateTime.Now.Date.AddDays(3).AddHours(8)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Lunch", Date = DateTime.Now.Date.AddDays(3).AddHours(13)},
 			new EventModel() { Id = Guid.NewGuid(), Name = "Dally", Date = DateTime.Now.Date.AddDays(4).AddHours(8)},
-			new EventModel() { Id = Guid.NewGuid(), Name = "Retro", Date = DateTime.Now.Date.AddHours(16)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Lunch", Date = DateTime.Now.Date.AddDays(4).AddHours(13)},
+			new EventModel() { Id = Guid.NewGuid(), Name = "Retro", Date = DateTime.Now.Date.AddDays(4).AddHours(16)},
 		};
     }
     public IEnumerable<EventModel> GetEvent()

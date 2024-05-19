@@ -10,6 +10,6 @@ public class NotificationCommand
 
     public void Execute()
     {
-        Console.WriteLine("sd");
+        Console.WriteLine("NotificationCommand");
     }
 }

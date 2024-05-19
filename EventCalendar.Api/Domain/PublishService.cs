@@ -19,7 +19,7 @@ public class PublishService
         {
             try
             {
-                await Task.Delay(2000, stoppingToken);
+                await Task.Delay(60_000, stoppingToken);
                 var events = _eventsRepository.GetEvent();
 
                 var needNotification = events.Where(x => x.IsNotification is false);
@@ -27,7 +27,9 @@ public class PublishService
                 foreach (var item in needNotification)
                 {
                     await _bus.Publish(new NotificationCommand(item), stoppingToken);
-                }
+                    item.IsNotification = true;
+					_eventsRepository.UpdateEvent(item);
+				}
             }
             catch (Exception ex)
             {
