@@ -1,23 +1,29 @@
 version: '3.4'
 
 services:
-  # calendarfluent.ui:
-  #   image: ${DOCKER_REGISTRY-}calendarfluentui
-  #   build:
-  #     context: .
-  #     dockerfile: CalendarFluent.UI/Dockerfile
-
   eventcalendar.api:
     image: ${DOCKER_REGISTRY-}eventcalendarapi
+    depends_on:
+      - db
     build:
       context: .
       dockerfile: EventCalendar.Api/Dockerfile
+
+  calendarfluent.ui:
+    image: ${DOCKER_REGISTRY-}calendarfluentui
+    depends_on:
+      - eventcalendar.api
+    build:
+      context: .
+      dockerfile: CalendarFluent.UI/Dockerfile
+
 
 
   db:
     image: postgres
     environment:
       POSTGRES_PASSWORD: example
+      POSTGRES_DB: db
     ports:
       - "5432:5432"
 

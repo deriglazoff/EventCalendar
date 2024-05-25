@@ -1,8 +1,9 @@
 ﻿@page "/"
+@using EventCalendar.Api.Domain
 @using EventCalendar.Api.Infrastructure
 @rendermode InteractiveServer
 
-@inject EventsRepository rep
+@inject IEventsRepository rep
 <table class="table">
 	<thead>
 		<tr>

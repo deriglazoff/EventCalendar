@@ -4,6 +4,9 @@ using Microsoft.EntityFrameworkCore;
 namespace EventCalendar.Api.Infrastructure;
 public class EventsRepository : DbContext, IEventsRepository
 {
+	protected override void OnModelCreating(ModelBuilder modelBuilder)
+	{
+	}
 	public EventsRepository(DbContextOptions<EventsRepository> options)
 		: base(options)
 	{
@@ -23,27 +26,29 @@ public class EventsRepository : DbContext, IEventsRepository
 			new EventEntity() { Id = Guid.NewGuid(), Name = "Retro", Date = DateTime.Now.Date.AddDays(4).AddHours(16)},
 		};
 	}
-    public DbSet<EventEntity> Events { get; set; }
+	public DbSet<EventEntity> Events { get; set; }
 
 	public readonly List<EventEntity> _items;
-    public EventsRepository()
-    {
-      
-    }
-    public IEnumerable<EventEntity> GetEvent()
-    {
-        return _items;
-    }
-    public void AddEvent(EventEntity eventModel)
-    {
-        _items.Add(eventModel);
-    }
+	public EventsRepository()
+	{
 
-    public void UpdateEvent(EventEntity eventModel)
-    {
-        var item = _items.First(x => x.Id == eventModel.Id);
-        _items.Remove(item);
-        _items.Add(eventModel);
-    }
+	}
+	public IEnumerable<EventEntity> GetEvent()
+	{
+		return Events.AsNoTracking().ToList();
+	}
+	public void AddEvent(EventEntity eventModel)
+	{
+		Events.Add(eventModel);
+		SaveChanges();
+	}
+
+	public void UpdateEvent(EventEntity eventModel)
+	{
+		var item = Events.First(x => x.Id == eventModel.Id);
+		Events.Remove(item);
+		Events.Add(eventModel);
+		SaveChanges();
+	}
 
 }

@@ -7,7 +7,7 @@
     <ProjectGuid>150e5bcd-c6eb-4e83-b956-4ef2353999b0</ProjectGuid>
     <DockerLaunchAction>LaunchBrowser</DockerLaunchAction>
     <DockerServiceUrl>{Scheme}://localhost:{ServicePort}</DockerServiceUrl>
-    <DockerServiceName>eventcalendar.api</DockerServiceName>
+    <DockerServiceName>calendarfluent.ui</DockerServiceName>
   </PropertyGroup>
   <ItemGroup>
     <None Include="docker-compose.override.yml">
