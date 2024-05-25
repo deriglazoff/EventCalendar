@@ -20,7 +20,6 @@ namespace EventCalendar.Test
 
 			using var client = application.CreateClient();
 
-			//var options = 
 			var httpResponse = await client.GetAsync($"check");
 
 			Assert.Equal(HttpStatusCode.OK, httpResponse.StatusCode);

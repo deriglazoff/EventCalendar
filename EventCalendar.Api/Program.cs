@@ -20,16 +20,16 @@ public class Program
 		builder.Services.AddMassTransit(x =>
 		{
 			x.AddConsumer<NotificationCommandConsumer>();
-			x.UsingInMemory((context, cfg) => cfg.ConfigureEndpoints(context));
-			//x.UsingRabbitMq((context, cfg) =>
-			//{
-			//    cfg.Host("rabbitmq", "/", h =>
-			//    {
-			//        h.Username("guest");
-			//        h.Password("guest");
-			//    });
-			//    cfg.ConfigureEndpoints(context);
-			//});
+			//x.UsingInMemory((context, cfg) => cfg.ConfigureEndpoints(context));
+			x.UsingRabbitMq((context, cfg) =>
+			{
+				cfg.Host("rabbitmq", "/", h =>
+				{
+					h.Username("guest");
+					h.Password("guest");
+				});
+				cfg.ConfigureEndpoints(context);
+			});
 		});
 
 		var app = builder.Build();
@@ -43,6 +43,6 @@ public class Program
 		app.UseSwaggerUI();
 		app.MapControllers();
 		app.MapHealthChecks("check");
-		app.Start();
+		app.Run();
 	}
 }
